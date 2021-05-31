@@ -94,6 +94,8 @@ class OrthokonBoard:
                 # mark last space as empty
                 self._board[from_col + i][from_row] = "E"
 
+        return True
+
     # method that moves a piece orthogonally leftwards
     def __move_left(self, from_col, to_col, from_row):
 

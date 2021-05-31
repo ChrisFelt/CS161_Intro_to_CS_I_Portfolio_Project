@@ -27,22 +27,32 @@ class OrthokonBoard:
     # method that moves a piece orthogonally upwards
     def __move_up(self, from_col, from_row, to_row):
 
+        # first check if any pieces are in the way
+        for i in range(abs(from_row - to_row)):  # loop number of spaces moved
+
+            if self._board[from_col][from_row - (i + 1)] != "E":
+
+                return False
+
         # loop for number of spaces moved
-        for i in range(abs(from_row - to_row) - 1):
+        for i in range(abs(from_row - to_row)):
 
             # check if new space is empty
             if self._board[from_col][from_row - (i + 1)] == "E":
+
                 # replace new space with piece from last space
                 self._board[from_col][from_row - (i + 1)] = self._board[from_col][from_row - i]
 
                 # mark last space as empty
                 self._board[from_col][from_row - i] = "E"
 
+        return True
+
     # method that moves a piece orthogonally downwards
     def __move_down(self, from_col, from_row, to_row):
 
         # first check if any pieces are in the way
-        for i in range(abs(from_row - to_row)):
+        for i in range(abs(from_row - to_row)):  # loop number of spaces moved
 
             if self._board[from_col][from_row + (i + 1)] != "E":
 
@@ -65,8 +75,15 @@ class OrthokonBoard:
     # method that moves a piece orthogonally rightwards
     def __move_right(self, from_col, to_col, from_row):
 
+        # first check if any pieces are in the way
+        for i in range(abs(from_col - to_col)):  # loop number of spaces moved
+
+            if self._board[from_col + (i + 1)][from_row] != "E":
+
+                return False
+
         # loop for number of spaces moved
-        for i in range(abs(from_col - to_col) - 1):
+        for i in range(abs(from_col - to_col)):
 
             # check if new space is empty
             if self._board[from_col + (i + 1)][from_row] == "E":
@@ -80,8 +97,15 @@ class OrthokonBoard:
     # method that moves a piece orthogonally leftwards
     def __move_left(self, from_col, to_col, from_row):
 
+        # first check if any pieces are in the way
+        for i in range(abs(from_col - to_col)):  # loop number of spaces moved
+
+            if self._board[from_col - (i + 1)][from_row] != "E":
+
+                return False
+
         # loop for number of spaces moved
-        for i in range(abs(from_col - to_col) - 1):
+        for i in range(abs(from_col - to_col)):
 
             # check if new space is empty
             if self._board[from_col - (i + 1)][from_row] == "E":
@@ -90,6 +114,8 @@ class OrthokonBoard:
 
                 # mark last space as empty
                 self._board[from_col - i][from_row] = "E"
+
+        return True
 
     # method that flips pieces that are orthogonally adjacent after a move
     def __subvert_piece(self, col, row):
@@ -144,12 +170,12 @@ class OrthokonBoard:
             return False  # Failed to move!
 
         # check if destination is within the board
-        if from_col > 3 or from_row > 3 or to_col > 3 or to_row > 3:
+        elif from_col > 3 or from_row > 3 or to_col > 3 or to_row > 3:
 
             return False  # Out of bounds!
 
         # check if the move is orthogonal
-        if from_col == to_col or from_row == to_row:
+        elif from_col == to_col or from_row == to_row:
 
             # check if move is vertical
             if from_col == to_col:
@@ -229,10 +255,8 @@ class OrthokonBoard:
 
                         return False
 
-            # return True
-
         # check if move is diagonal
-        # elif abs(from_col - to_col) // abs(from_row - to_row) == 1:
+        elif abs(from_col - to_col) // abs(from_row - to_row) == 1:
 
 
 board = OrthokonBoard()

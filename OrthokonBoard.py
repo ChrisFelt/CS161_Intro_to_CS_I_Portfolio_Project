@@ -34,6 +34,15 @@ class OrthokonBoard:
 
                 return False
 
+        # check the next space up after moving to make sure it isn't empty
+        # check if the next space up is inside the board
+        if to_row - 1 in range(4):
+
+            # next space up after moving
+            if self._board[from_col][to_row - 1] == "E":
+
+                return False  # didn't move far enough
+
         # loop for number of spaces moved
         for i in range(abs(from_row - to_row)):
 
@@ -57,6 +66,15 @@ class OrthokonBoard:
             if self._board[from_col][from_row + (i + 1)] != "E":
 
                 return False
+
+        # check the next space down after moving to make sure it isn't empty
+        # check if the next space down is inside the board
+        if to_row + 1 in range(4):
+
+            # next space down after moving
+            if self._board[from_col][to_row + 1] == "E":
+
+                return False  # didn't move far enough
 
         # loop for number of spaces moved
         for i in range(abs(from_row - to_row)):
@@ -82,6 +100,15 @@ class OrthokonBoard:
 
                 return False
 
+        # check the next space right after moving to make sure it isn't empty
+        # check if the next space right is inside the board
+        if to_col + 1 in range(4):
+
+            # next space right after moving
+            if self._board[to_col + 1][from_row] == "E":
+
+                return False  # didn't move far enough
+
         # loop for number of spaces moved
         for i in range(abs(from_col - to_col)):
 
@@ -106,6 +133,15 @@ class OrthokonBoard:
 
                 return False
 
+        # check the space left after moving to make sure it isn't empty
+        # check if the next space left is inside the board
+        if to_col - 1 in range(4):
+
+            # next space left after moving
+            if self._board[to_col - 1][from_row] == "E":
+
+                return False  # didn't move far enough
+
         # loop for number of spaces moved
         for i in range(abs(from_col - to_col)):
 
@@ -120,7 +156,7 @@ class OrthokonBoard:
         return True
 
     # method for moving diagonally up and rightwards
-    def __move_up_and_right(self, from_col, from_row, to_row):
+    def __move_up_and_right(self, from_col, from_row, to_col, to_row):
 
         # first check if any pieces are in the way
         # assumes destination is exactly 45 degrees from origin
@@ -129,6 +165,15 @@ class OrthokonBoard:
             if self._board[from_col + (i + 1)][from_row - (i + 1)] != "E":
 
                 return False
+
+        # check the space up and right after moving to make sure it isn't empty
+        # check if the next space up and right is inside the board
+        if to_col + 1 in range(4) and to_row - 1 in range(4):
+
+            # next space up and right after moving
+            if self._board[to_col + 1][to_row - 1] == "E":
+
+                return False  # didn't move far enough
 
         # loop for number of spaces moved
         for i in range(abs(from_row - to_row)):
@@ -145,14 +190,24 @@ class OrthokonBoard:
         return True
 
     # method for moving diagonally up and leftwards
-    def __move_up_and_left(self, from_col, from_row, to_row):
+    def __move_up_and_left(self, from_col, from_row, to_col, to_row):
 
         # first check if any pieces are in the way
         # assumes destination is exactly 45 degrees from origin
         for i in range(abs(from_row - to_row)):  # loop number of spaces moved
 
             if self._board[from_col - (i + 1)][from_row - (i + 1)] != "E":
+
                 return False
+
+        # check the space up and left after moving to make sure it isn't empty
+        # check if the next space up and left is inside the board
+        if to_col - 1 in range(4) and to_row - 1 in range(4):
+
+            # next space up and left after moving
+            if self._board[to_col - 1][to_row - 1] == "E":
+
+                return False  # didn't move far enough
 
         # loop for number of spaces moved
         for i in range(abs(from_row - to_row)):
@@ -169,14 +224,24 @@ class OrthokonBoard:
         return True
 
     # method for moving diagonally down and rightwards
-    def __move_down_and_right(self, from_col, from_row, to_row):
+    def __move_down_and_right(self, from_col, from_row, to_col, to_row):
 
         # first check if any pieces are in the way
         # assumes destination is exactly 45 degrees from origin
         for i in range(abs(from_row - to_row)):  # loop number of spaces moved
 
             if self._board[from_col + (i + 1)][from_row + (i + 1)] != "E":
+
                 return False
+
+        # check the space down and right after moving to make sure it isn't empty
+        # check if the next space down and right is inside the board
+        if to_col + 1 in range(4) and to_row + 1 in range(4):
+
+            # next space down and right after moving
+            if self._board[to_col + 1][to_row + 1] == "E":
+
+                return False  # didn't move far enough
 
         # loop for number of spaces moved
         for i in range(abs(from_row - to_row)):
@@ -193,14 +258,24 @@ class OrthokonBoard:
         return True
 
     # method for moving diagonally down and leftwards
-    def __move_down_and_left(self, from_col, from_row, to_row):
+    def __move_down_and_left(self, from_col, from_row, to_col, to_row):
 
         # first check if any pieces are in the way
         # assumes destination is exactly 45 degrees from origin
         for i in range(abs(from_row - to_row)):  # loop number of spaces moved
 
             if self._board[from_col - (i + 1)][from_row + (i + 1)] != "E":
+
                 return False
+
+        # check the space down and left after moving to make sure it isn't empty
+        # check if the next space down and left is inside the board
+        if to_col - 1 in range(4) and to_row + 1 in range(4):
+
+            # next space down and left after moving
+            if self._board[to_col - 1][to_row + 1] == "E":
+
+                return False  # didn't move far enough
 
         # loop for number of spaces moved
         for i in range(abs(from_row - to_row)):
@@ -365,7 +440,7 @@ class OrthokonBoard:
                         return False
 
         # check if move is diagonal
-        elif abs(from_col - to_col) // abs(from_row - to_row) == 1:
+        elif abs(from_col - to_col) / abs(from_row - to_row) == 1.0:
 
             # check if moving rightwards
             if from_col < to_col:
@@ -375,7 +450,7 @@ class OrthokonBoard:
 
                     # check if move is legal using __move_up_and_right method
                     # moves piece if True
-                    if self.__move_up_and_right(from_col, from_row, to_row):
+                    if self.__move_up_and_right(from_col, from_row, to_col, to_row):
 
                         # flip opponent's adjacent pieces
                         self.__subvert_piece(to_col, to_row)
@@ -393,7 +468,7 @@ class OrthokonBoard:
 
                     # check if move is legal using __move_up_and_right method
                     # moves piece if True
-                    if self.__move_down_and_right(from_col, from_row, to_row):
+                    if self.__move_down_and_right(from_col, from_row, to_col, to_row):
 
                         # flip opponent's adjacent pieces
                         self.__subvert_piece(to_col, to_row)
@@ -414,7 +489,7 @@ class OrthokonBoard:
 
                     # check if move is legal using __move_up_and_left method
                     # moves piece if True
-                    if self.__move_up_and_left(from_col, from_row, to_row):
+                    if self.__move_up_and_left(from_col, from_row, to_col, to_row):
 
                         # flip opponent's adjacent pieces
                         self.__subvert_piece(to_col, to_row)
@@ -432,7 +507,7 @@ class OrthokonBoard:
 
                     # check if move is legal using __move_down_and_left method
                     # moves piece if True
-                    if self.__move_down_and_left(from_col, from_row, to_row):
+                    if self.__move_down_and_left(from_col, from_row, to_col, to_row):
 
                         # flip opponent's adjacent pieces
                         self.__subvert_piece(to_col, to_row)
@@ -445,57 +520,37 @@ class OrthokonBoard:
 
                         return False
 
+        # all other moves (i.e. not perfectly diagonal, etc.) are illegal
+        else:
 
+            return False
 
 
 board = OrthokonBoard()
 
-print(board.make_move(0, 3, 2, 1))
+print(board.make_move(1, 0, 0, 1))
 board.print_board()
 print(board.get_current_state())
 
-print(board.make_move(3, 3, 1, 1))
+print(board.make_move(2, 0, 3, 1))
 board.print_board()
 print(board.get_current_state())
 
-print(board.make_move(1, 3, 0, 3))
+print(board.make_move(1, 3, 0, 2))
 board.print_board()
 print(board.get_current_state())
 
-print(board.make_move(2, 3, 3, 3))
-board.print_board()
-print(board.get_current_state())
-
-print(board.make_move(0, 3, 0, 1))
-board.print_board()
-print(board.get_current_state())
-
-print(board.make_move(3, 3, 3, 1))
+print(board.make_move(2, 3, 3, 2))
 board.print_board()
 print(board.get_current_state())
 
 
-board2 = OrthokonBoard()
-print(board2.make_move(0, 0, 2, 2))
-board2.print_board()
-print(board2.get_current_state())
+board1 = OrthokonBoard()
 
-print(board2.make_move(3, 0, 1, 2))
-board2.print_board()
-print(board2.get_current_state())
+print(board1.make_move(0, 0, 1, 1))
+board1.print_board()
+print(board1.get_current_state())
 
-print(board2.make_move(1, 0, 0, 0))
-board2.print_board()
-print(board2.get_current_state())
-
-print(board2.make_move(2, 0, 3, 0))
-board2.print_board()
-print(board2.get_current_state())
-
-print(board2.make_move(0, 0, 0, 2))
-board2.print_board()
-print(board2.get_current_state())
-
-print(board2.make_move(3, 0, 3, 2))
-board2.print_board()
-print(board2.get_current_state())
+print(board1.make_move(0, 3, 1, 2))
+board1.print_board()
+print(board1.get_current_state())

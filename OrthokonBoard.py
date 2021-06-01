@@ -1,4 +1,33 @@
+# Author: Christopher Felt
+# Date: 5/31/2021
+#
+# Description: Program that contains a class for defining an OrthokonBoard object, which contains the current state
+# and a list of lists representing a 4 x 4 space board.
+#
+# The class contains the following methods that handle rules concerning the game board:
+#
+# 1) A get method that returns the game state, "UNFINISHED", "RED WON", or "YELLOW WON".
+#
+# 2) Eight methods for movement either orthogonally or diagonally; one each for up, down, left, right, up and right,
+# up and left, down and right, and down and left. The methods first check if the move is legal, i.e. the piece was
+# moved as far as it could be until it touched another piece, and was not moved off the board or into a non-empty space.
+#
+# 3) A method for flipping orthogonally adjacent pieces of the opposing color.
+#
+# 4) A method for checking if the victory condition has been met by either the red or yellow player. This method checks
+# if all pieces on the board belong to a single player, and changes the game state accordingly.
+#
+# 5) Finally, a method for making moves that determines which method for movement will be used, and ensures that pieces
+# are flipped and the game state is updated after each move. Also determines the generic legality of the move, such as
+# whether the space selected is empty, the destination is the same as the origin, the destination is on the board, and
+# the move is either orthogonal or diagonal.
+
+# define OrthokonBoard class
 class OrthokonBoard:
+
+    """Represents a game board for two players, red and yellow, to move game pieces orthogonally or diagonally, with
+    methods for controlling movement, flipping opposing orthogonally adjacent pieces after each move, and updating the
+    game state if a move resulted in one player controlling all pieces on the board."""
 
     # initialize data members
     def __init__(self):

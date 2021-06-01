@@ -25,6 +25,7 @@
 # define OrthokonBoard class
 class OrthokonBoard:
 
+    # Docstring description
     """Represents a game board for two players, red and yellow, to move game pieces orthogonally or diagonally, with
     methods for controlling movement, flipping opposing orthogonally adjacent pieces after each move, and updating the
     game state if a move resulted in one player controlling all pieces on the board."""
@@ -409,7 +410,7 @@ class OrthokonBoard:
 
                     else:
 
-                        return False
+                        return False  # illegal move!
 
                 # check if moving down
                 if from_row < to_row:
@@ -427,7 +428,7 @@ class OrthokonBoard:
 
                     else:
 
-                        return False
+                        return False  # illegal move!
 
             # check if move is horizontal
             if from_row == to_row:
@@ -448,7 +449,7 @@ class OrthokonBoard:
 
                     else:
 
-                        return False
+                        return False  # illegal move!
 
                 # check if moving left
                 if from_col > to_col:
@@ -466,7 +467,7 @@ class OrthokonBoard:
 
                     else:
 
-                        return False
+                        return False  # illegal move!
 
         # check if move is diagonal
         elif abs(from_col - to_col) / abs(from_row - to_row) == 1.0:
@@ -490,7 +491,7 @@ class OrthokonBoard:
 
                     else:
 
-                        return False
+                        return False  # illegal move!
 
                 # check if moving down
                 if from_row < to_row:
@@ -508,7 +509,7 @@ class OrthokonBoard:
 
                     else:
 
-                        return False
+                        return False  # illegal move!
 
             # check if moving leftwards
             if from_col > to_col:
@@ -529,7 +530,7 @@ class OrthokonBoard:
 
                     else:
 
-                        return False
+                        return False  # illegal move!
 
                 # check if moving down
                 if from_row < to_row:
@@ -547,7 +548,7 @@ class OrthokonBoard:
 
                     else:
 
-                        return False
+                        return False  # illegal move!
 
         # all other moves (i.e. not perfectly diagonal, etc.) are illegal
         else:

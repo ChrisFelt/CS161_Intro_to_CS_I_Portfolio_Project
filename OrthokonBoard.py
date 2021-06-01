@@ -20,7 +20,8 @@
 # 5) Finally, a method for making moves that determines which method for movement will be used, and ensures that pieces
 # are flipped and the game state is updated after each move. Also determines the generic legality of the move, such as
 # whether the space selected is empty, the destination is the same as the origin, the destination is on the board, and
-# the move is either orthogonal or diagonal.
+# the move is either orthogonal or diagonal. This move takes 4 non-negative integers as arguments in the following
+# order: from row, from column, to row, to column.
 
 # define OrthokonBoard class
 class OrthokonBoard:
@@ -28,8 +29,11 @@ class OrthokonBoard:
     # Docstring description
     """Represents a game board for two players, red and yellow, to move game pieces orthogonally or diagonally, with
     methods for controlling movement, flipping opposing orthogonally adjacent pieces after each move, and updating the
-    game state if a move resulted in one player controlling all pieces on the board."""
+    game state if a move resulted in one player controlling all pieces on the board. Movement is controlled by the
+    make_move method, which takes four non-negative integers as arguments: the from row, from column, to row, and to
+    column, in that order."""
 
+    # ===========================================================================================================
     # initialize data members
     def __init__(self):
 
@@ -42,18 +46,13 @@ class OrthokonBoard:
                        ["R", "E", "E", "Y"]]  # column 3
         self._current_state = "UNFINISHED"
 
+    # ===========================================================================================================
     # get method returning current game state
     def get_current_state(self):
 
         return self._current_state
 
-    # print the board
-    def print_board(self):
-
-        for i in range(len(self._board)):
-
-            print(self._board[i])
-
+    # ===========================================================================================================
     # method that moves a piece orthogonally upwards
     def __move_up(self, from_col, from_row, to_row):
 
@@ -87,6 +86,7 @@ class OrthokonBoard:
 
         return True
 
+    # ===========================================================================================================
     # method that moves a piece orthogonally downwards
     def __move_down(self, from_col, from_row, to_row):
 
@@ -120,6 +120,7 @@ class OrthokonBoard:
 
         return True
 
+    # ===========================================================================================================
     # method that moves a piece orthogonally rightwards
     def __move_right(self, from_col, from_row, to_col):
 
@@ -153,6 +154,7 @@ class OrthokonBoard:
 
         return True
 
+    # ===========================================================================================================
     # method that moves a piece orthogonally leftwards
     def __move_left(self, from_col, from_row, to_col):
 
@@ -185,6 +187,7 @@ class OrthokonBoard:
 
         return True
 
+    # ===========================================================================================================
     # method for moving diagonally up and rightwards
     def __move_up_and_right(self, from_col, from_row, to_col, to_row):
 
@@ -219,6 +222,7 @@ class OrthokonBoard:
 
         return True
 
+    # ===========================================================================================================
     # method for moving diagonally up and leftwards
     def __move_up_and_left(self, from_col, from_row, to_col, to_row):
 
@@ -253,6 +257,7 @@ class OrthokonBoard:
 
         return True
 
+    # ===========================================================================================================
     # method for moving diagonally down and rightwards
     def __move_down_and_right(self, from_col, from_row, to_col, to_row):
 
@@ -287,6 +292,7 @@ class OrthokonBoard:
 
         return True
 
+    # ===========================================================================================================
     # method for moving diagonally down and leftwards
     def __move_down_and_left(self, from_col, from_row, to_col, to_row):
 
@@ -320,6 +326,7 @@ class OrthokonBoard:
 
         return True
 
+    # ===========================================================================================================
     # method that flips pieces that are orthogonally adjacent after a move
     def __subvert_piece(self, col, row):
 
@@ -347,6 +354,7 @@ class OrthokonBoard:
                     # flip the piece!
                     self._board[col + i][row] = self._board[col][row]
 
+    # ===========================================================================================================
     # method for checking the state of the board and declaring a winner
     def __check_win(self):
 
@@ -356,7 +364,6 @@ class OrthokonBoard:
 
             # yellow wins
             self._current_state = "YELLOW WON"
-            return True
 
         # check if no yellow pieces remain
         elif "Y" not in self._board[0] and "Y" not in self._board[1] and \
@@ -364,30 +371,30 @@ class OrthokonBoard:
 
             # red wins
             self._current_state = "RED WON"
-            return True
 
-        else:  # not necessary?
-
-            return False  # no winner yet
-
+    # ===========================================================================================================
     # method for handling piece movement on the board
-    def make_move(self, from_col, from_row, to_col, to_row):
+    def make_move(self, from_row, from_col, to_row, to_col):
 
+        # -----------------------------------------------------------------------------------------
         # check if piece was moved to same location as origin
         if from_col == to_col and from_row == to_row:
 
-            return False  # Failed to move!
+            return False  # failed to move!
 
+        # -----------------------------------------------------------------------------------------
         # check if destination is within the board
         elif from_col > 3 or from_row > 3 or to_col > 3 or to_row > 3:
 
-            return False  # Out of bounds!
+            return False  # out of bounds!
 
+        # -----------------------------------------------------------------------------------------
         # check if space is empty
         elif self._board[from_col][from_row] == "E":
 
             return False  # nothing to move!
 
+        # -----------------------------------------------------------------------------------------
         # check if the move is orthogonal
         elif from_col == to_col or from_row == to_row:
 
@@ -469,6 +476,7 @@ class OrthokonBoard:
 
                         return False  # illegal move!
 
+        # -----------------------------------------------------------------------------------------
         # check if move is diagonal
         elif abs(from_col - to_col) / abs(from_row - to_row) == 1.0:
 
@@ -550,51 +558,8 @@ class OrthokonBoard:
 
                         return False  # illegal move!
 
+        # -----------------------------------------------------------------------------------------
         # all other moves (i.e. not perfectly diagonal, etc.) are illegal
         else:
 
             return False
-
-
-board = OrthokonBoard()
-
-print(board.make_move(1, 0, 0, 1))
-board.print_board()
-print(board.get_current_state())
-
-print(board.make_move(2, 0, 3, 1))
-board.print_board()
-print(board.get_current_state())
-
-print(board.make_move(1, 3, 0, 2))
-board.print_board()
-print(board.get_current_state())
-
-print(board.make_move(2, 3, 3, 2))
-board.print_board()
-print(board.get_current_state())
-
-print(board.make_move(0, 1, 2, 1))
-board.print_board()
-print(board.get_current_state())
-
-print(board.make_move(2, 1, 2, 0))
-board.print_board()
-print(board.get_current_state())
-
-print(board.make_move(3, 1, 0, 1))
-board.print_board()
-print(board.get_current_state())
-
-
-
-
-board1 = OrthokonBoard()
-
-print(board1.make_move(0, 0, 1, 1))
-board1.print_board()
-print(board1.get_current_state())
-
-print(board1.make_move(0, 3, 1, 2))
-board1.print_board()
-print(board1.get_current_state())

@@ -574,6 +574,20 @@ print(board.make_move(2, 3, 3, 2))
 board.print_board()
 print(board.get_current_state())
 
+print(board.make_move(0, 1, 2, 1))
+board.print_board()
+print(board.get_current_state())
+
+print(board.make_move(2, 1, 2, 0))
+board.print_board()
+print(board.get_current_state())
+
+print(board.make_move(3, 1, 0, 1))
+board.print_board()
+print(board.get_current_state())
+
+
+
 
 board1 = OrthokonBoard()
 

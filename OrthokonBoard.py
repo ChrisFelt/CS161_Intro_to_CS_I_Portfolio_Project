@@ -399,6 +399,8 @@ class OrthokonBoard:
                 list_spaces_adjacent = ["X", "X", "X", "X"]  # refresh list before each check
 
                 # check spaces on the edge of the board. this approach seems really clunky.
+                # could collapse into loops similar to those in the if statements in __subvert_piece method, but loop
+                # counters would be confusing
                 if i + 1 not in range(4) or i - 1 not in range(4) or j + 1 not in range(4) or j - 1 not in range(4):
 
                     # check if column above not on board

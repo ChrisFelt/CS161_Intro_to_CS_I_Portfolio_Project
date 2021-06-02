@@ -40,10 +40,10 @@ class OrthokonBoard:
         # define initial board
         # list of rows in each column, column/row number corresponds to list number
         # R = red, E = empty, Y = yellow
-        self._board = [["E", "R", "E", "E"],  # column 0
-                       ["R", "Y", "R", "E"],  # column 1
-                       ["R", "R", "E", "E"],  # column 2
-                       ["Y", "Y", "E", "R"]]  # column 3
+        self._board = [["R", "E", "E", "Y"],  # column 0
+                       ["R", "E", "E", "Y"],  # column 1
+                       ["R", "E", "E", "Y"],  # column 2
+                       ["R", "E", "E", "Y"]]  # column 3
         self._current_state = "UNFINISHED"
 
     # ===========================================================================================================

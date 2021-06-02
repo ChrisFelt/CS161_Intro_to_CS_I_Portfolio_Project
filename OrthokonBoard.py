@@ -6,7 +6,7 @@
 #
 # The class contains the following methods that handle rules concerning the game board:
 #
-# 1) A get method that returns the game state, "UNFINISHED", "RED WON", or "YELLOW WON".
+# 1) A get method that returns the game state, "UNFINISHED", "RED_WON", or "YELLOW_WON".
 #
 # 2) Eight methods for movement either orthogonally or diagonally; one each for up, down, left, right, up and right,
 # up and left, down and right, and down and left. The methods first check if the move is legal, i.e. the piece was
@@ -40,10 +40,10 @@ class OrthokonBoard:
         # define initial board
         # list of rows in each column, column/row number corresponds to list number
         # R = red, E = empty, Y = yellow
-        self._board = [["R", "E", "E", "Y"],  # column 0
-                       ["R", "E", "E", "Y"],  # column 1
-                       ["R", "E", "E", "Y"],  # column 2
-                       ["R", "E", "E", "Y"]]  # column 3
+        self._board = [["E", "R", "E", "E"],  # column 0
+                       ["R", "Y", "R", "E"],  # column 1
+                       ["R", "R", "E", "E"],  # column 2
+                       ["Y", "Y", "E", "R"]]  # column 3
         self._current_state = "UNFINISHED"
 
     # ===========================================================================================================
@@ -364,6 +364,7 @@ class OrthokonBoard:
 
             # yellow wins
             self._current_state = "YELLOW_WON"
+            return True  # exit method
 
         # check if no yellow pieces remain
         elif "Y" not in self._board[0] and "Y" not in self._board[1] and \
@@ -371,7 +372,9 @@ class OrthokonBoard:
 
             # red wins
             self._current_state = "RED_WON"
+            return True  # exit method
 
+        # -----------------------------------------------------------------------------------------
         # check if either player has no pieces that can be legally moved
         # set counters
         red_pieces = 0
@@ -384,31 +387,115 @@ class OrthokonBoard:
 
             for j in range(4):  # loop through rows
 
-                # only check spaces that are within the board
+                if self._board[i][j] == "R":  # count current space if red
+
+                    red_pieces += 1
+
+                elif self._board[i][j] == "Y":  # count current space if yellow
+
+                    yellow_pieces += 1
+
+                # list for recording checks of adjacent spaces
+                list_spaces_adjacent = ["X", "X", "X", "X"]  # refresh list before each check
+
+                # check spaces on the edge of the board. this approach seems really clunky.
+                if i + 1 not in range(4) or i - 1 not in range(4) or j + 1 not in range(4) or j - 1 not in range(4):
+
+                    # check if column above not on board
+                    if i + 1 not in range(4):
+
+                        list_spaces_adjacent[0] = "O"  # record if true
+
+                    # check if column above on board
+                    if i + 1 in range(4):
+
+                        # check if space is empty
+                        if self._board[i + 1][j] != "E":
+
+                            list_spaces_adjacent[0] = "O"  # record if true
+
+                    # check if column below not on board
+                    if i - 1 not in range(4):
+
+                        list_spaces_adjacent[1] = "O"  # record if true
+
+                    # check if column below on board
+                    if i - 1 in range(4):
+
+                        # check if space is empty
+                        if self._board[i - 1][j] != "E":
+
+                            list_spaces_adjacent[1] = "O"  # record if true
+
+                    # check if row above not on board
+                    if j + 1 not in range(4):
+
+                        list_spaces_adjacent[2] = "O"  # record if true
+
+                    # check if row above on board
+                    if j + 1 in range(4):
+
+                        # check if space is empty
+                        if self._board[i][j + 1] != "E":
+
+                            list_spaces_adjacent[2] = "O"  # record if true
+
+                    # check if row below is not on board
+                    if j - 1 not in range(4):
+
+                        list_spaces_adjacent[3] = "O"  # record if true
+
+                    # check if row below is on board
+                    if j - 1 in range(4):
+
+                        # check if space is empty
+                        if self._board[i][j - 1] != "E":
+
+                            list_spaces_adjacent[3] = "O"  # record if true
+
+                    # check if all orthogonally adjacent spaces are either empty or off board
+                    if "X" not in list_spaces_adjacent:
+
+                        # if current space contains red piece, unmovable red counter goes up
+                        if self._board[i][j] == "R":
+
+                            unmovable_red_pieces += 1  # +2 so we can make a valid check later against total pieces
+
+                        # if current space contains yellow piece, unmovable yellow counter goes up
+                        elif self._board[i][j] == "Y":
+
+                            unmovable_yellow_pieces += 1
+
+                # check spaces for which all adjacent spaces are within the board
                 if i + 1 in range(4) and i - 1 in range(4) and j + 1 in range(4) and j - 1 in range(4):
 
-                    for z in range(-1, 2):  # loop for each space orthogonally adjacent to column i
+                    # check all orthogonally adjacent spaces
+                    if self._board[i + 1][j] != "E" and self._board[i - 1][j] != "E" and \
+                            self._board[i][j + 1] != "E" and self._board[i][j - 1] != "E":
 
-                        for x in range(-1, 2):  # loop for each space orthogonally adjacent to row j
+                        # if current space contains red piece, unmovable red counter goes up
+                        if self._board[i][j] == "R":
 
-                            if self._board[i][j] == "R":  # count current space if red
+                            unmovable_red_pieces += 1
 
-                                red_pieces += 1
+                        # if current space contains yellow piece, unmovable yellow counter goes up
+                        elif self._board[i][j] == "Y":
 
-                            elif self._board[i][j] == "Y":  # count current space if yellow
+                            unmovable_yellow_pieces += 1
 
-                                yellow_pieces += 1
+        # if no red pieces can move, yellow wins
+        if unmovable_red_pieces / red_pieces == 1.0:
 
-                            # MUST CHECK ALL ADJACENT IN ONE STATEMENT no need for z/x
-                            if self._board[i + z][j + x] != "E":  # check all orthogonally adjacent spaces
+            # yellow wins
+            self._current_state = "YELLOW_WON"
+            return True  # exit method
 
-                                if self._board[i][j] == "R":
+        # if no yellow pieces can move, red wins
+        elif unmovable_yellow_pieces / yellow_pieces == 1.0:
 
-                                    unmovable_red_pieces += 1
-
-                                elif self._board[i][j] == "Y":
-
-                                    unmovable_yellow_pieces += 1
+            # red wins
+            self._current_state = "RED_WON"
+            return True  # exit method
 
     # ===========================================================================================================
     # method for handling piece movement on the board

@@ -363,18 +363,40 @@ class OrthokonBoard:
                 "R" not in self._board[2] and "R" not in self._board[3]:
 
             # yellow wins
-            self._current_state = "YELLOW WON"
+            self._current_state = "YELLOW_WON"
 
         # check if no yellow pieces remain
         elif "Y" not in self._board[0] and "Y" not in self._board[1] and \
                 "Y" not in self._board[2] and "Y" not in self._board[3]:
 
             # red wins
-            self._current_state = "RED WON"
+            self._current_state = "RED_WON"
+
+        [ for "R" in self._board if ]
+
+        for i in range(4):
+
+            for j in range(4):
+
+                if i + 1 in range(4) and i - 1 in range(4) and j + 1 in range(4) and j - 1 in range(4):
+
+                    for z in range(-1, 2):
+
+                        for x in range(-1, 2):
+
+                            if self._board[i + z][j + x] != "E":
+
+
 
     # ===========================================================================================================
     # method for handling piece movement on the board
     def make_move(self, from_row, from_col, to_row, to_col):
+
+        # -----------------------------------------------------------------------------------------
+        # check if a player has won yet
+        if self._current_state != "UNFINISHED":
+
+            return False  # winner already decided
 
         # -----------------------------------------------------------------------------------------
         # check if piece was moved to same location as origin

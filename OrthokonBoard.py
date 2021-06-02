@@ -372,21 +372,43 @@ class OrthokonBoard:
             # red wins
             self._current_state = "RED_WON"
 
-        [ for "R" in self._board if ]
+        # check if either player has no pieces that can be legally moved
+        # set counters
+        red_pieces = 0
+        yellow_pieces = 0
+        unmovable_red_pieces = 0
+        unmovable_yellow_pieces = 0
 
+        # loop through columns
         for i in range(4):
 
-            for j in range(4):
+            for j in range(4):  # loop through rows
 
+                # only check spaces that are within the board
                 if i + 1 in range(4) and i - 1 in range(4) and j + 1 in range(4) and j - 1 in range(4):
 
-                    for z in range(-1, 2):
+                    for z in range(-1, 2):  # loop for each space orthogonally adjacent to column i
 
-                        for x in range(-1, 2):
+                        for x in range(-1, 2):  # loop for each space orthogonally adjacent to row j
 
-                            if self._board[i + z][j + x] != "E":
+                            if self._board[i][j] == "R":  # count current space if red
 
+                                red_pieces += 1
 
+                            elif self._board[i][j] == "Y":  # count current space if yellow
+
+                                yellow_pieces += 1
+
+                            # MUST CHECK ALL ADJACENT IN ONE STATEMENT no need for z/x
+                            if self._board[i + z][j + x] != "E":  # check all orthogonally adjacent spaces
+
+                                if self._board[i][j] == "R":
+
+                                    unmovable_red_pieces += 1
+
+                                elif self._board[i][j] == "Y":
+
+                                    unmovable_yellow_pieces += 1
 
     # ===========================================================================================================
     # method for handling piece movement on the board

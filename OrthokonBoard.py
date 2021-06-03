@@ -44,7 +44,8 @@ class OrthokonBoard:
                        ["R", "E", "E", "Y"],  # column 1
                        ["R", "E", "E", "Y"],  # column 2
                        ["R", "E", "E", "Y"]]  # column 3
-        self._current_state = "UNFINISHED"
+
+        self._current_state = "UNFINISHED"  # initialize game state
 
     # ===========================================================================================================
     # get method returning current game state
@@ -461,7 +462,7 @@ class OrthokonBoard:
                         # if current space contains red piece, unmovable red counter goes up
                         if self._board[i][j] == "R":
 
-                            unmovable_red_pieces += 1  # +2 so we can make a valid check later against total pieces
+                            unmovable_red_pieces += 1
 
                         # if current space contains yellow piece, unmovable yellow counter goes up
                         elif self._board[i][j] == "Y":
@@ -513,7 +514,7 @@ class OrthokonBoard:
         # check if piece was moved to same location as origin
         if from_col == to_col and from_row == to_row:
 
-            return False  # failed to move!
+            return False  # can't move to origin from origin!
 
         # -----------------------------------------------------------------------------------------
         # check if destination is within the board
